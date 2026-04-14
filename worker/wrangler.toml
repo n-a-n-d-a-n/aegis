@@ -1,0 +1,20 @@
+name = "aegis-worker"
+main = "worker.js"
+compatibility_date = "2024-06-01"
+
+# Route: point your submission subdomain at this worker
+# Replace with your actual zone and domain
+routes = [
+  { pattern = "submit.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+# Rate limiter binding
+# Create in Cloudflare dashboard: Workers → Rate Limiting
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+
+[vars]
+# Daily salt is computed in code — nothing sensitive here
+# RATE_LIMIT_SALT can be set as a secret via: wrangler secret put RATE_LIMIT_SALT

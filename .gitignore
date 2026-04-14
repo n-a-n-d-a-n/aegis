@@ -1,0 +1,31 @@
+# Environment
+.env
+.env.local
+
+# Keys — NEVER commit private keys
+*.pem
+backend/keys/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Database files
+*.db
+*.sqlite
+
+# Node
+node_modules/
+.wrangler/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log

@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  aegis-backend:
+    build: ./backend
+    container_name: aegis-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"  # Localhost only — Cloudflare Tunnel connects here
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./aegis.db}
+      - PUBLIC_KEY_PATH=${PUBLIC_KEY_PATH:-keys/journalist_public.pem}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-*}
+    volumes:
+      - ./backend/keys:/app/keys:ro        # Public key — read-only
+      - aegis-data:/app/data               # Database persistence
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  aegis-data:

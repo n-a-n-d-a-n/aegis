@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <!-- No analytics, no external scripts, no fonts loaded from CDN -->
+  <title>Aegis — Secure Submission</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #4ade80;
+      --accent-dim: #166534;
+      --danger: #f87171;
+      --radius: 6px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .header {
+      margin-bottom: 2.5rem;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .notice {
+      background: #111;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-dim);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .notice a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      padding: 0.85rem;
+      resize: vertical;
+      min-height: 160px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 1.25rem;
+    }
+
+    textarea:focus {
+      border-color: var(--accent-dim);
+    }
+
+    .file-area {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.2s;
+      margin-bottom: 1.75rem;
+      position: relative;
+    }
+
+    .file-area:hover { border-color: var(--accent-dim); }
+
+    .file-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    #fileLabel { display: block; margin-top: 0.3rem; }
+
+    button[type="submit"] {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .success {
+      background: var(--surface);
+      border: 1px solid var(--accent-dim);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .success h2 {
+      color: var(--accent);
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .success .ref-id {
+      font-size: 0.85rem;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.9rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+      margin: 0.75rem 0;
+      word-break: break-all;
+    }
+
+    .success p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Aegis // Secure Drop</h1>
+      <p>Your submission is encrypted before it reaches our server.<br>
+         We cannot identify you and we cannot read your message.</p>
+    </div>
+
+    <div class="notice">
+      For maximum anonymity, submit through
+      <a href="https://www.torproject.org" target="_blank" rel="noopener noreferrer">Tor Browser</a>
+      on a network you don't normally use.
+      Do not submit from a work device or work network.
+    </div>
+
+    <div id="formArea">
+      <label for="message">Your message</label>
+      <textarea id="message" placeholder="Describe what you know..."></textarea>
+
+      <label>Attach a file (optional)</label>
+      <div class="file-area">
+        <span>Click to attach a document, image, or archive</span>
+        <span id="fileLabel"></span>
+        <input type="file" id="fileUpload" accept="*/*">
+      </div>
+
+      <button type="submit" id="submitBtn" onclick="handleSubmit()">
+        Submit Anonymously
+      </button>
+
+      <div id="errorMsg" class="error-msg" style="display:none"></div>
+    </div>
+
+    <div id="successArea" style="display:none">
+      <div class="success">
+        <h2>Received</h2>
+        <p>Your submission has been received and encrypted.</p>
+        <div class="ref-id" id="refId"></div>
+        <p>
+          This is your reference ID. Screenshot or write it down —
+          it is the only way to follow up on your submission.
+          We have no other way to link it to you.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('fileUpload').addEventListener('change', function () {
+      const label = document.getElementById('fileLabel');
+      label.textContent = this.files[0] ? '✓ ' + this.files[0].name : '';
+    });
+
+    async function handleSubmit() {
+      const message = document.getElementById('message').value.trim();
+      const file = document.getElementById('fileUpload').files[0];
+      const btn = document.getElementById('submitBtn');
+      const errEl = document.getElementById('errorMsg');
+
+      errEl.style.display = 'none';
+
+      if (!message) {
+        errEl.textContent = 'Please enter a message before submitting.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const formData = new FormData();
+      formData.append('message', message);
+      if (file) formData.append('file', file);
+
+      try {
+        const res = await fetch('/submit', {
+          method: 'POST',
+          body: formData,
+          credentials: 'omit',  // No cookies
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.detail || `Server error (${res.status})`);
+        }
+
+        const data = await res.json();
+
+        document.getElementById('formArea').style.display = 'none';
+        document.getElementById('successArea').style.display = 'block';
+        document.getElementById('refId').textContent = data.id;
+
+      } catch (err) {
+        errEl.textContent = 'Submission failed: ' + err.message;
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Submit Anonymously';
+      }
+    }
+  </script>
+</body>
+</html>
