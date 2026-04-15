@@ -145,4 +145,4 @@ beyond what code alone provides. Read [docs/OPSEC.md](docs/OPSEC.md) carefully.
 
 ## License
 
-MIT
+VIT
