@@ -1,5 +1,5 @@
 /**
- * Aegis — Cloudflare Worker
+ * Aegis — Cloudflare Co-Worker
  *
  * Runs at Cloudflare's edge BEFORE the request reaches the origin server.
  *
