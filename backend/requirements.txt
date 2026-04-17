@@ -9,3 +9,5 @@ aiosqlite==0.20.0
 # For PostgreSQL in production, uncomment:
 # asyncpg==0.29.0
 # databases[asyncpg]==0.9.0
+
+pytest-asyncio
