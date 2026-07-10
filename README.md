@@ -61,7 +61,7 @@ Decryption  → Offline only, journalist's air-gapped machine
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/yourusername/aegis.git
+git clone https://github.com/n-a-n-d-a-n/aegis.git
 cd aegis
 cp .env.example .env
 # Fill in your values
